@@ -1,0 +1,19 @@
+services:
+  lumidb:
+    image: postgres:18.1-alpine
+    container_name: lumidb
+    environment:
+      - POSTGRES_USER=lumipy
+      - POSTGRES_PASSWORD=lumipy123!
+      - POSTGRES_DB=lumi_ticket
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - ./database:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d lumi_ticket"]
+      interval: 30s
+      timeout: 10s
+      retries: 6
+      start_period: 20s
+  
